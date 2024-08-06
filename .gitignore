@@ -1,0 +1,6 @@
+# Local files
+.env
+
+# PHP folders
+
+/vendor
