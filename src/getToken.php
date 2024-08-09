@@ -1,13 +1,13 @@
 <?php
 
-define('ROOT', __DIR__ . '/..');
-require_once(ROOT . '/vendor/autoload.php');
+require_once("tokenLib.php");
 
-use Dotenv\Dotenv as Dotenv;
-
-$dotenv = Dotenv::createImmutable(ROOT);
-$dotenv->load();
-
-echo $_ENV['JWT_SECRET']
-
+// Sending token
+sendCookie($secret_key);
+header('Content-Type: application/json');
+if (isset($_GET['redirect']) && $_GET['redirect'] == "true") {
+	header('Location: /');
+}else {
+	echo json_encode(["message"=> "Token set successfully."]);
+}
 ?>

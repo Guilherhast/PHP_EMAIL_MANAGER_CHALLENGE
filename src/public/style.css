@@ -1,0 +1,9 @@
+html{
+	background-color: #111;
+	color: white;
+	display: flex;
+	justify-content: center;
+}
+#loggedDisplay{
+	display: inline-flex;
+}
