@@ -1,8 +1,9 @@
 <?php
 
 require_once("Controllers/Controler.php");
+require_once("tokenLib.php");
 
-
+// Class definition
 class EmailController extends Controller {
 	function r_getOne($id) {
 		return array(
@@ -36,6 +37,15 @@ class EmailController extends Controller {
 	}
 }
 
+// Setting up guards
+$guards = array(
+	"Login required"=> function (){
+		return isLogged();
+	}
+);
 
-$emailController = new EmailController();
+// Handling the requests
+$emailController = new EmailController($guards);
 $emailController->handleRequest();
+
+?>
