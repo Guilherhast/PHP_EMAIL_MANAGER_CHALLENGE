@@ -144,9 +144,7 @@ function buildGetMannyUrl() {
 
 //#### fetch functions
 async function createOne() {
-	const ans = await sendPostRequest(dataUrl, retrieveData());
-	console.log(ans);
-	return {id: 200}
+	return await sendPostRequest(dataUrl, retrieveData());
 }
 
 async function getManny() {
