@@ -1,9 +1,140 @@
-html{
+:root {
+	--header-height: 75px;
+}
+
+html {
 	background-color: #111;
 	color: white;
 	display: flex;
 	justify-content: center;
 }
-#loggedDisplay{
+
+body {
+	width: 100%;
+	min-height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+#loggedDisplay {
 	display: inline-flex;
+}
+
+h1,
+h2 {
+	color: white;
+	text-align: center;
+	width: 100%;
+	margin: 0;
+}
+
+h1 {
+	background-color: black;
+}
+
+h2 {
+	background-color: #222;
+}
+
+header {
+	width: 100%;
+	display: inline-flex;
+	box-sizing: border-box;
+
+	>button {
+		min-width: var(--header-height);
+		aspect-ratio: 1;
+	}
+}
+
+header>#controls {
+	padding-left: 5px;
+	width: 100%;
+
+	>div {
+		height: var(--header-height);
+		width: 100%;
+
+		button,
+		input {
+			flex-grow: 1;
+			text-align: center;
+		}
+
+		input {
+			max-width: calc(2*var(--header-height));
+			font-size: 2em;
+		}
+
+		span {
+			background-color: darkgrey;
+			color: black;
+			min-width: var(--header-height);
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+
+	&.one {
+		>#one {
+			display: flex;
+		}
+
+		>#manny {
+			display: none;
+		}
+	}
+
+	&.manny {
+		>#manny {
+			display: flex;
+		}
+
+		>#one {
+			display: none;
+		}
+	}
+}
+
+main {
+	box-sizing: border-box;
+	background-color: navy;
+	width: 100%;
+	flex: 1;
+
+	>h2 {
+		position: sticky;
+	}
+
+	#dataDisplayOne, #dataDisplayManny {
+		background-color: #444;
+		color: white;
+
+		>.entry {
+			width: 100%;
+			display: flex;
+
+			&.entryInput{
+				height: 1.2em;
+			}
+			&.entryTextArea{
+				height: 10em;
+			}
+
+			>span {
+				min-width: var(--header-height);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			>input,
+			>textarea {
+				flex-grow: 1;
+			}
+		}
+	}
 }

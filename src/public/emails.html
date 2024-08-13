@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Manage Emails</title>
+	<link rel="stylesheet" href="style.css">
+	<script defer src="emails.js"></script>
+</head>
+
+<body>
+	<h1>Emails manager</h1>
+	<header>
+		<button id="btnToggle" onclick="toggleControls()">Manny</button>
+		<div id="controls" class="one">
+			<div id="one">
+				<span>ID:</span>
+				<input id="inputId" type="number" min="1" value="1" />
+				<button id="btnGet" onclick="getOne().then(d=>uiFillOne(d))">Get</button>
+				<button id="btnCreate" onclick="createOne().then(d=>setId(d))">Create</button>
+				<button id="btnUpdate">Update</button>
+				<button id="btnDelete">Delete</button>
+			</div>
+			<div id="manny">
+				<span>Limit:</span>
+				<input id="inputLimit" type="number" min="0" value="0" />
+				<span>Offset:</span>
+				<input id="inputOffset" type="number" min="0" value="0" />
+				<button id="btnGetManny" onclick="getManny().then(data=>uiFillMany(data))">Get All</button>
+			</div>
+		</div>
+	</header>
+	<main>
+		<h2>Content</h2>
+		<div id="dataDisplayManny" class="hidden"></div>
+		<div id="dataDisplayOne" class="">
+			<div id="entry_from" class="entry entryInput">
+				<span>from</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_to" class="entry entryInput">
+				<span>to</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_affiliate_id" class="entry entryInput">
+				<span>affiliate_id</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_subject" class="entry entryInput">
+				<span>subject</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_dkim" class="entry entryInput">
+				<span>dkim</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_SPF" class="entry entryInput">
+				<span>SPF</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_spam_score" class="entry entryInput">
+				<span>spam_score</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_email" class="entry entryTextArea">
+				<span>email</span>
+				<textarea class="entry-data" value=""></textarea>
+			</div>
+			<div id="entry_raw_text" class="entry entryInput">
+				<span>raw_text</span>
+				<textarea class="entry-data" value=""></textarea>
+			</div>
+			<div id="entry_sender_ip" class="entry entryInput">
+				<span>sender_ip</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+			<div id="entry_timestamp" class="entry entryInput">
+				<span>timestamp</span>
+				<input class="entry-data" type="text" value="">
+			</div>
+		</div>
+
+		</div>
+		<!--
+		<div class="entry"><span>Texto</span><input type="text"></div>
+		<div class="entry"><span>Texto</span><textarea name="" id="" cols="30" rows="10"></textarea></div>
+		-->
+	</main>
+</body>
+
+</html>
