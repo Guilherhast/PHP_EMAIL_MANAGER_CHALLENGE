@@ -17,10 +17,10 @@
 			<div id="one">
 				<span>ID:</span>
 				<input id="inputId" type="number" min="1" value="1" />
-				<button id="btnGet" onclick="getOne().then(d=>uiFillOne(d))">Get</button>
+				<button id="btnGet" onclick="getOne().then(d=>testAndFill(d))">Get</button>
 				<button id="btnCreate" onclick="createOne().then(d=>setId(d))">Create</button>
-				<button id="btnUpdate">Update</button>
-				<button id="btnDelete">Delete</button>
+				<button id="btnUpdate" onclick="updateOne().then(s=>showSuccess(s))">Update</button>
+				<button id="btnDelete" onclick="deleteOne().then(s=>showSuccess(s))">Delete</button>
 			</div>
 			<div id="manny">
 				<span>Limit:</span>

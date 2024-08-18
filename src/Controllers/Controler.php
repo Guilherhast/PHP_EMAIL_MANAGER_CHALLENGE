@@ -19,6 +19,7 @@ class Controller {
 
 	public $statusLabel = array(
 		200 => "Ok",
+		400 =>"Bad Request",
 		403 => "Forbidden",
 	);
 
@@ -47,14 +48,14 @@ class Controller {
 	}
 
 	function r_post() {
-		array(
+		return array(
 			"message" => "This should create a new element.",
 		);
 	}
 
 	function r_update() {
 		$id = $_GET['id'];
-		array(
+		return array(
 			"message" => "This should update the element with id: $id.",
 		);
 	}
@@ -97,6 +98,16 @@ class Controller {
 		header("HTTP/1.0 $obj->status $label");
 		header('Content-Type: application/json');
 		echo json_encode($obj->data);
+	}
+
+	function resp_badRequest($data) {
+		return (object)array(
+			"status" => 400,
+			"data" =>
+			json_encode(array(
+				"message" => "Bad request: $data.",
+			)),
+		);
 	}
 
 	function resp_forbidden($data) {

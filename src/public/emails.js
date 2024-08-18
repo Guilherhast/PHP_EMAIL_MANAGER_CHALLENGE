@@ -66,6 +66,10 @@ function createFormData(data) {
 }
 
 //### Fill functions
+function testAndFill(data){
+	if(data) uiFillOne(data);
+	else window.alert("Non existent objet");
+}
 function uiFillMany(data) {
 	dataDisplayOne.classList.add('hidden');
 	dataDisplayManny.classList.remove('hidden');
@@ -84,6 +88,10 @@ function setId(obj) {
 	dataDisplayManny.classList.add('hidden');
 	dataDisplayOne.classList.remove('hidden');
 	inputId.value = obj.id;
+}
+
+function showSuccess(obj){
+	window.alert(`Success ${obj.success}.`);
 }
 
 function uiFillOne(obj) {
@@ -123,7 +131,7 @@ function uiEmpty() {
 
 //### Network functions
 //#### Url functions
-function buildGetOneUrl() {
+function buildIdParamURL() {
 	const url = new URL(dataUrl, window.location.href);
 	// Check if id is defined ( if not define it as 1 )
 	const id = inputId.value != "0" ? inputId.value : 1;
@@ -142,7 +150,14 @@ function buildGetMannyUrl() {
 	return url;
 }
 
-//#### fetch functions
+//#### Fetch functions
+async function deleteOne() {
+	return await sendDeleteRequest(buildIdParamURL(dataUrl));
+}
+async function updateOne() {
+	return await sendUpdateRequest(buildIdParamURL(dataUrl), retrieveData());
+}
+
 async function createOne() {
 	return await sendPostRequest(dataUrl, retrieveData());
 }
@@ -154,17 +169,33 @@ async function getManny() {
 }
 
 async function getOne() {
-	const url = buildGetOneUrl();
+	const url = buildIdParamURL();
 	const res = await fetch(url);
-	//const data = await res.json(); return data[0]; // TODO: Remove me
-	return await res.json();
+	data = await res.json();
+	console.log(data);
+	return data;
 }
 
-async function sendPostRequest(url, obj) {
-	const headers = {
-		method: 'POST',
-		body: createFormData(obj)
+//#### Low level network functions
+async function sendPostRequest(url, obj){
+	return await sendRequest(url, obj, 'POST');
+}
+async function sendUpdateRequest(url, obj){
+	return await sendRequest(url, obj, 'PUT');
+}
+async function sendDeleteRequest(url){
+	return await sendRequest(url, null, 'DELETE');
+}
+
+async function sendRequest(url, obj, method) {
+	method = method.toUpperCase();
+	const supported = ['POST', 'DELETE', 'PUT'];
+	if (!supported.includes(method)){
+		throw new Error(`${method} method not supported.`);
 	}
+
+	const headers = { method: method };
+	if ( obj ) headers['body'] = createFormData(obj);
 
 	const req = await fetch(url, headers);
 

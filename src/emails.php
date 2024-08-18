@@ -2,15 +2,17 @@
 
 require_once("Controllers/Controler.php");
 require_once("tokenLib.php");
-require_once("Database/Connection.php");
-require_once("Services/Service.php");
+require_once("Services/emails.service.php");
+require_once("Libraries/contentParser.php");
 
 // Class definition
 class EmailController extends Controller {
 	private $service;
+	private $extractor;
 
-	function __construct($guards, $service) {
+	function __construct($guards, $service, $extractor) {
 		$this->service = $service;
+		$this->extractor = $extractor;
 		parent::__construct($guards);
 	}
 
@@ -37,15 +39,13 @@ class EmailController extends Controller {
 
 	function r_update() {
 		$id = $_GET['id'];
-		array(
-			"message" => "This should update the email with id: $id.",
-		);
+		$_PUT = $this->extractor::getAllData(file_get_contents('php://input'));
+		return $this->service->update($id, json_decode($_PUT['data']));
 	}
+
 	function r_delete() {
 		$id = $_GET['id'];
-		return array(
-			"message" => "This should delete the email with id: $id.",
-		);
+		return $this->service->delete($id);
 	}
 }
 
@@ -55,26 +55,7 @@ $guards = array(
 		return isLogged();
 	}
 );
-$emailsTable = "successful_emails";
-$emailsModel = array(
-	'id' => PDO::PARAM_INT,
-	'affiliate_id' => PDO::PARAM_INT,
-	'envelope' => PDO::PARAM_STR,
-	'from' => PDO::PARAM_STR,
-	'subject' => PDO::PARAM_STR,
-	'dkim' => PDO::PARAM_STR,
-	'SPF' => PDO::PARAM_STR,
-	'spam_score' => PDO::PARAM_STR,
-	'email' => PDO::PARAM_STR,
-	'raw_text' => PDO::PARAM_STR,
-	'sender_ip' => PDO::PARAM_STR,
-	'to' => PDO::PARAM_STR,
-	'timestamp' => PDO::PARAM_INT,
-);
-
-$db = MysqlPDO::fromEnv();
-$emailService = new Service($db, $emailsTable, $emailsModel);
 
 // Handling the requests
-$emailController = new EmailController($guards, $emailService);
+$emailController = new EmailController($guards, $emailService, new ContentParser());
 $emailController->handleRequest();

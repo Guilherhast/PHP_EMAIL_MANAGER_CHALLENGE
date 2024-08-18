@@ -17,8 +17,23 @@ body {
 	flex-direction: column;
 }
 
+#loginScreen{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 #loggedDisplay {
 	display: inline-flex;
+}
+
+.hidden{
+	display:none !important;
+}
+
+a.emails{
+	color: lime;
+	font-size: 3em;
 }
 
 h1,

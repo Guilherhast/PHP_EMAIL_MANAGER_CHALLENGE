@@ -13,6 +13,10 @@ class Service {
 		$this->primaryKey = $primaryKey;
 	}
 
+	function getPrimaryKey(){
+		return $this->primaryKey;
+	}
+
 	private function prefix_key($key) {
 		return ":$key";
 	}
@@ -51,7 +55,7 @@ class Service {
 	private function genQueryUpdate($dict) {
 		$keys = array_keys($this->cleanObj($dict));
 		return implode(", ", array_map(function ($k) {
-			return "$k = :$k";
+			return "`$k` = :$k";
 		}, $keys));
 	}
 
@@ -109,9 +113,11 @@ class Service {
 	}
 
 	function pre_update($obj) {
-		$clean = $this->cleanObj($obj);
+		$clean = (array)$this->cleanObj($obj);
 		// Disable changing primary key
-		unset($clean[$this->primaryKey]);
+		if(isset($clean[$this->primaryKey])){
+			unset($clean[$this->primaryKey]);
+		}
 		return $clean;
 	}
 
@@ -123,12 +129,16 @@ class Service {
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(":$this->primaryKey", $key, $this->model[$this->primaryKey]);
 		$this->bind_used_values($obj, array_keys($obj), $stmt);
-		return $this->before_return($this->db->execute());
+		return $this->before_return(array(
+			'success'=>$stmt->execute()
+		));
 	}
 
 	function delete($key) {
-		$stmt = $this->db->prepare("DELETE $this->table WHERE $this->primaryKey=:$this->primaryKey");
+		$stmt = $this->db->prepare("DELETE FROM $this->table WHERE $this->primaryKey=:$this->primaryKey");
 		$stmt->bindValue(":$this->primaryKey", $key, $this->model[$this->primaryKey]);
-		return $this->before_return($this->db->execute());
+		return $this->before_return(array(
+			'success'=>$stmt->execute()
+		));
 	}
 }
